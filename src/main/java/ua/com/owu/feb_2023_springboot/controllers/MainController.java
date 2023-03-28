@@ -1,6 +1,7 @@
 package ua.com.owu.feb_2023_springboot.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.web.bind.annotation.*;
 import ua.com.owu.feb_2023_springboot.dao.CarDAO;
 import ua.com.owu.feb_2023_springboot.models.Car;
@@ -33,6 +34,11 @@ public class MainController {
     @DeleteMapping("/cars/{id}")
     public List<Car> deleteCar(@PathVariable int id) {
         carDAO.deleteById(id);
+        return carDAO.findAll();
+    }
+    @DeleteMapping("/cars/model/{model}")
+    public List<Car> deleteCarByModel(@PathVariable String model) {
+        carDAO.deleteCarByModel(model);
         return carDAO.findAll();
     }
 
