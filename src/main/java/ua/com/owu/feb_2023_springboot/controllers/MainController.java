@@ -1,6 +1,7 @@
 package ua.com.owu.feb_2023_springboot.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.web.bind.annotation.*;
 import ua.com.owu.feb_2023_springboot.dao.CarDAO;
@@ -16,8 +17,8 @@ public class MainController {
 
     @GetMapping("/cars")
     public List<Car> getCar() {
-        List<Car> all = carDAO.findAll();
-        return all;
+        Sort by = Sort.by(Sort.Order.desc("id"));
+        return carDAO.findAll(by);
     }
 
     @GetMapping("/cars/{id}")
