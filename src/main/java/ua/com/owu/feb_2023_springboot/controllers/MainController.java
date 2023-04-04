@@ -51,10 +51,10 @@ public class MainController {
     }
 
     @GetMapping("/{id}")
-//    @JsonView(value = Views.Level1.class)
-    public ResponseEntity<CarDTO> getCars(@PathVariable int id) {
+    @JsonView(value = Views.Level1.class)
+    public ResponseEntity<Car> getCars(@PathVariable int id) {
         Car car = carDAO.findById(id).get();
-        return new ResponseEntity<>(new CarDTO(car), HttpStatus.OK);
+        return new ResponseEntity<>( car, HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.OK)
