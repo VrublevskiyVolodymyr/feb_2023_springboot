@@ -90,20 +90,10 @@ public class MainController {
 
     @PostMapping("/saveWithPhoto")
     @JsonView(value = Views.Level1.class)
-    public void saveWithPhoto(
-            @RequestParam String model,
-            @RequestParam String producer,
-            @RequestParam int power,
-            @RequestParam MultipartFile photo
-    ) throws IOException {
-
-        ua.com.owu.feb_2023_springboot.models.Car car = new ua.com.owu.feb_2023_springboot.models.Car(model, producer, power);
-        String originalFilename = photo.getOriginalFilename();
-        car.setPhoto("/photo/" + originalFilename);
-        String path = System.getProperty("user.home") + File.separator + "images" + File.separator + originalFilename;
-        File file = new File(path);
-        photo.transferTo(file);
-        carService.save(car);
+    public void saveWithPhoto(@RequestParam String model, @RequestParam String producer, @RequestParam int power, @RequestParam MultipartFile photo)
+            throws IOException {
+        carService.saveWithPhoto(model,producer,power,photo);
     }
+
 }
 

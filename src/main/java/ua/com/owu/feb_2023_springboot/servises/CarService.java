@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.owu.feb_2023_springboot.dao.CarDAO;
 import ua.com.owu.feb_2023_springboot.models.Car;
 import ua.com.owu.feb_2023_springboot.models.CarDTO;
 import ua.com.owu.feb_2023_springboot.views.Views;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -77,5 +81,18 @@ public class CarService {
 
     public ResponseEntity<List<Car>> getCarByProducer(@PathVariable String value) {
         return new ResponseEntity<>(carDAO.findByProducer(value), HttpStatus.OK);
+    }
+    public void saveWithPhoto(
+            @RequestParam String model,
+            @RequestParam String producer,
+            @RequestParam int power,
+            @RequestParam MultipartFile photo
+    ) throws IOException {Car car = new ua.com.owu.feb_2023_springboot.models.Car(model, producer, power);
+        String originalFilename = photo.getOriginalFilename();
+        car.setPhoto("/photo/" + originalFilename);
+        String path = System.getProperty("user.home") + File.separator + "images" + File.separator + originalFilename;
+        File file = new File(path);
+        photo.transferTo(file);
+        carDAO.save(car);
     }
 }
