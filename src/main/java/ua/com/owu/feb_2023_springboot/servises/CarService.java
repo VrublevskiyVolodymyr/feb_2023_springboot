@@ -3,6 +3,7 @@ package ua.com.owu.feb_2023_springboot.servises;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,10 @@ public class CarService {
         }
         carDAO.save(car);
 //        mailService.sendEmail(car);
+    }
+    public ResponseEntity<List<Car>> getAllCars() {
+        Sort by = Sort.by(Sort.Order.desc("id"));
+        return new ResponseEntity<>(carDAO.findAll(by), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Car>> findAllWithSpecifications(Specification<Car> criteria) {

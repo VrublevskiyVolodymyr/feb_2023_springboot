@@ -9,7 +9,7 @@ public class CarSpecifications {
     }
 
     public static Specification<Car> byPower(int power) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.gt(root.get("power"), power);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("power"), power);
     }
 
     public static Specification<Car> byId(int id) {
