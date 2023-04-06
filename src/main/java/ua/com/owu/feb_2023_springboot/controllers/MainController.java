@@ -47,7 +47,6 @@ public class MainController {
         clientUserService.saveClient(clientUserDTO);
     }
 
-
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/clients/login")
     public ResponseEntity<String> login(@RequestBody ClientUserDTO clientUserDTO) {
@@ -71,7 +70,6 @@ public class MainController {
         return new ResponseEntity<>("bad credentials", HttpStatus.FORBIDDEN);
     }
 
-
     //OPEN
     @GetMapping("/clients/all")
     @JsonView(value = Views.Level3.class)
@@ -86,12 +84,10 @@ public class MainController {
         return new ResponseEntity<>(clientUserDAO.findAll(), HttpStatus.OK);
     }
 
-
     @GetMapping("/cars")
     @JsonView(value = Views.Level3.class)
     public ResponseEntity<List<ua.com.owu.feb_2023_springboot.models.Car>> getAllCars() {
         return carService.getAllCars();
-
     }
 
     @GetMapping("/cars/withSpecifications/{model}/{producer}/{power}")
@@ -154,5 +150,4 @@ public class MainController {
             throws IOException {
         carService.saveWithPhoto(model, producer, power, photo);
     }
-
 }
