@@ -29,13 +29,14 @@ public class ClientUser implements UserDetails {
     @JsonView(value = Views.Level1.class)
     private List<Role> roles = List.of(Role.USER);
     @Column(unique = true)
-    @JsonView(value = Views.Level3.class)
+    @JsonView(value={Views.Level3.class,Views.Level1.class })
     private String email;
-    @JsonView(value={Views.Level1.class,Views.Level1.class })
+    @JsonView(value={Views.Level3.class,Views.Level1.class })
     private String password;
 
+
     @Override
-    @JsonView(value = Views.Level1.class)
+//    @JsonView(value = Views.Level1.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         this.roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.name())));
@@ -60,7 +61,6 @@ public class ClientUser implements UserDetails {
     }
 
     @Override
-    @JsonView(value = Views.Level1.class)
     public boolean isAccountNonLocked() {
         return true;
     }

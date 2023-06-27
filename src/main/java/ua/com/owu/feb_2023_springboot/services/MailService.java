@@ -18,6 +18,7 @@ public class MailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
+
         try {
             helper.setTo("v637904@gmail.com");
             helper.setText("<h2> car " + car.toString() + " created :)</h2>", true);

@@ -28,7 +28,7 @@ public class CarService {
             throw new RuntimeException();
         }
         carDAO.save(car);
-//        mailService.sendEmail(car);
+        mailService.sendEmail(car);
     }
     public ResponseEntity<List<Car>> getAllCars() {
         Sort by = Sort.by(Sort.Order.desc("id"));

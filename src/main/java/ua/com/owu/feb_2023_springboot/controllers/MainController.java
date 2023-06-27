@@ -27,6 +27,7 @@ import ua.com.owu.feb_2023_springboot.views.Views;
 import java.io.IOException;
 
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.List;
 
 @AllArgsConstructor
@@ -38,7 +39,6 @@ public class MainController {
     //    private CarMongoDAO carMongoDAO;
     private ClientUserService clientUserService;
     private ClientUserDAO clientUserDAO;
-    private AuthenticationManager authenticationManager;
 
 
     @ResponseStatus(HttpStatus.OK)
@@ -50,30 +50,13 @@ public class MainController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/clients/login")
     public ResponseEntity<String> login(@RequestBody ClientUserDTO clientUserDTO) {
-        System.out.println(clientUserDTO);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(clientUserDTO.getUsername(), clientUserDTO.getPassword());
-        System.out.println(usernamePasswordAuthenticationToken);
-        Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        System.out.println(authenticate);
-        if (authenticate != null) {
-            String jwtToken = Jwts.builder()
-                    .setSubject(authenticate.getName())
-                    .signWith(SignatureAlgorithm.HS256, "okten".getBytes(StandardCharsets.UTF_8))
-                    .compact();
-            System.out.println(jwtToken);
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Authorization", "Bearer " + jwtToken);
-            return new ResponseEntity<>("login :)", httpHeaders, HttpStatus.OK);
-        }
-        return new ResponseEntity<>("bad credentials", HttpStatus.FORBIDDEN);
+        return clientUserService.login(clientUserDTO);
     }
 
     //OPEN
     @GetMapping("/clients/all")
     @JsonView(value = Views.Level3.class)
-    public ResponseEntity<List<ClientUser>> getAllClientsWithoutSensetiveInformation() {
+    public ResponseEntity<List<ClientUser>> getAllClientsWithoutSensetiveInformation(Principal principal) {
         return new ResponseEntity<>(clientUserDAO.findAll(), HttpStatus.OK);
     }
 
